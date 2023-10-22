@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Wordle</string>
+    <string name="letters_5">5 Letter</string>
+    <string name="want_hint">Do you want to see hint ?</string>
+</resources>
