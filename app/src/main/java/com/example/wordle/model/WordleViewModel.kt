@@ -5,12 +5,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
-import com.example.wordle.data.Letters
 import com.example.wordle.data.WordleUiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import java.util.Locale
+
 
 class WordleViewModel: ViewModel() {
     private val _uiState = MutableStateFlow(WordleUiState())
@@ -21,37 +22,49 @@ class WordleViewModel: ViewModel() {
     var idx by mutableStateOf(0)
     var wordList: MutableList<String> by mutableStateOf(mutableListOf())
 
-    var word by mutableStateOf(Pair("", ""))
-
     init {
         newGame(letters1)
-        word = Letters.words5.random()
+        _uiState.update {
+            it.copy(
+                list = wordList
+            )
+        }
     }
-    private fun newGame(size: Int) {
+    fun newGame(size: Int) {
         wordList.clear()
         letters1 = size
-        println(letters1)
         for (i in 1..size) {
             wordList.add(" ".repeat(size))
         }
+        _uiState.value = WordleUiState()
+        _uiState.update {
+            it.copy(
+                list = wordList
+            )
+        }
+        idx = 0
+        println(_uiState.value.list+" Nfg")
         println(wordList)
     }
-
     fun updateUserValue(value: String) {
         userGuess = value
     }
-    fun addWordToList() : Boolean{
-        if (idx < letters1) {
-            wordList[idx++] = userGuess.uppercase(Locale.getDefault())
-            if (userGuess == word.first) {
+    fun addWordToList(guess: String, word: String) : Boolean{
+        if (idx < 5) {
+            wordList[idx] = userGuess.uppercase(Locale.getDefault())
+            _uiState.update {
+                it.copy(list = wordList)
+            }
+            println(_uiState.value.list)
+            if (userGuess == word) {
                 return true;
             }
+            idx++
             return false;
         }
         else {
             return false;
         }
-        println(wordList)
     }
 
     fun getColors(word: String): MutableList<Color> {
@@ -69,5 +82,8 @@ class WordleViewModel: ViewModel() {
             }
         }
         return list;
+    }
+    fun getList(): MutableList<String> {
+        return _uiState.value.list
     }
 }

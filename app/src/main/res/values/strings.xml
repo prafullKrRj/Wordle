@@ -2,4 +2,8 @@
     <string name="app_name">Wordle</string>
     <string name="letters_5">5 Letter</string>
     <string name="want_hint">Do you want to see hint ?</string>
+    <string name="hurray">Hooray!</string>
+    <string name="exit">Exit</string>
+    <string name="new_game">New Game</string>
+    <string name="sorry">Sorry!</string>
 </resources>

@@ -8,6 +8,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import com.example.wordle.ui.theme.HomeScreen
 import com.example.wordle.ui.theme.WordleTheme
 
@@ -16,12 +17,12 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            WordleTheme {
-                
+            WordleTheme (darkTheme = false){
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
+                    val windowSize = LocalConfiguration.current
                     HomeScreen()
                 }
             }
